@@ -89,7 +89,7 @@ for row in cursor.execute('SELECT date,user,message,html FROM messages WHERE htm
         numberOfContracts = int(numberOfContracts_string.replace(',',''))
         price_string = extractSubstringFromRight(message_html,'/> '+INSTRUMENT+': '+numberOfContracts_string+' Cont @ ','\n')
         price = float(price_string)
-        if numberOfContracts > abs(MINIMUM_NUMBER_OF_CONTRACTS):
+        if abs(numberOfContracts) > abs(MINIMUM_NUMBER_OF_CONTRACTS):
             print(timestamp.strftime(OUTPUT_TIMEFORMAT)+' '+user+': '+str(numberOfContracts)+' contracts in '+INSTRUMENT+' @ '+str(price))
 conn.close()
 print('Done.')
@@ -113,7 +113,7 @@ for row in cursor.execute('SELECT date,user,message,html FROM messages WHERE htm
         rpnl_string = ''
     elif message[0:5] == '/rpnl':
         rpnl_string = extractSubstringFromRight(message_html,': ',' XBT RPNL\n</code></pre>')
-        rpnl_string = ''
+        upnl_string = ''
     elif message[0:5] == '/pnl ':
         upnl_string = extractSubstringFromRight(message_html,', ',' XBT UPNL\n</code></pre>')
         rpnl_string = extractSubstringFromRight(message_html,': ',' XBT RPNL, ')
